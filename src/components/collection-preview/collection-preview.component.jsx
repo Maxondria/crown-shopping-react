@@ -4,13 +4,13 @@ import "./collection-preview.styles.scss";
 
 export default ({ title, items }) => {
   return (
-    <div className='collection-preview'>
-      <h1 className='title'>{title.toUpperCase()}</h1>
-      <div className='preview'>
+    <div className="collection-preview">
+      <h1 className="title">{title.toUpperCase()}</h1>
+      <div className="preview">
         {items
           .filter((_item, idx) => idx < 4)
-          .map(({ id, ...itemProps }) => {
-            return <CollectionItem key={id} {...itemProps} />;
+          .map(item => {
+            return <CollectionItem key={item.id} item={item} />;
           })}
       </div>
     </div>
