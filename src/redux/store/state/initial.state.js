@@ -1,3 +1,4 @@
 export const initialState = {
-  user: { currentUser: null }
+  user: { currentUser: null },
+  cart: { hidden: true }
 };
