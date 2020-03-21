@@ -1,6 +1,9 @@
+import SHOP_DATA from "./shop.data";
+
 export const initialState = {
   user: { currentUser: null },
   cart: { hidden: true, cartItems: [] },
+  shop: { collections: SHOP_DATA },
   directory: {
     sections: [
       {
