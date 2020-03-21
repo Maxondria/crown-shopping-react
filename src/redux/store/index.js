@@ -1,6 +1,7 @@
 import { applyMiddleware, compose, createStore } from "redux";
 import { rootReducer } from "../reducers";
 import logger from "redux-logger";
+import { persistStore } from "redux-persist";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; //redux dev tools
 
@@ -11,4 +12,6 @@ const store = createStore(
   composeEnhancers(applyMiddleware(...middleware))
 );
 
-export { store as default };
+const persistor = persistStore(store);
+
+export { persistor, store as default };
