@@ -9,9 +9,9 @@ export default ({ title, items }) => {
       <div className="preview">
         {items
           .filter((_item, idx) => idx < 4)
-          .map(item => {
-            return <CollectionItem key={item.id} item={item} />;
-          })}
+          .map(item => (
+            <CollectionItem key={item.id} item={item} />
+          ))}
       </div>
     </div>
   );
