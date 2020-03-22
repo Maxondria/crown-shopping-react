@@ -21,7 +21,7 @@ const Header = ({ currentUser, hidden }) => {
     <HeaderContainer>
       <LogoContainer to="/">
         <Logo />
-      </LogoContainer> 
+      </LogoContainer>
       <OptionsContainer>
         <OptionLink to="/shop">SHOP</OptionLink>
         <OptionLink to="/">CONTACT</OptionLink>
