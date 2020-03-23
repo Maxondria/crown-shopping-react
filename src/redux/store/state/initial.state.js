@@ -1,7 +1,7 @@
 export const initialState = {
   user: { currentUser: null },
   cart: { hidden: true, cartItems: [] },
-  shop: { collections: null },
+  shop: { collections: null, isFetching: false, errorMessage: undefined },
   directory: {
     sections: [
       {
