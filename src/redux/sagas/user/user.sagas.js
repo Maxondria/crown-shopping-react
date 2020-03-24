@@ -9,18 +9,29 @@ import {
   CHECK_USER_SESSION,
   EMAIL_SIGN_IN_START,
   GOOGLE_SIGN_IN_START,
-  SIGN_OUT_START
+  SIGN_OUT_START,
+  SIGN_UP_START,
+  SIGN_UP_SUCCESS
 } from "../../constants/actionTypes";
 import {
   SignInFailure,
   SignInSuccess,
   signOutFailure,
-  signOutSuccess
+  signOutSuccess,
+  signUpFailure,
+  signUpSuccess
 } from "../../reducers/user/user.actions";
 
-const getSnapShotFromAutherUserWorkerSaga = function*(authedUser) {
+const getSnapShotFromAutherUserWorkerSaga = function*(
+  authedUser,
+  additionalData = {}
+) {
   try {
-    const userRef = yield call(createUserProfileDoc, authedUser);
+    const userRef = yield call(
+      createUserProfileDoc,
+      authedUser,
+      additionalData
+    );
     const userSnapshot = yield userRef.get();
     yield put(
       SignInSuccess({
@@ -88,11 +99,38 @@ const onSignOutStartSaga = function*() {
   yield takeLatest(SIGN_OUT_START, onSignOutStartWorkerSaga);
 };
 
+const onSignUpStartWorkerSaga = function*({
+  payload: { displayName, email, password }
+}) {
+  try {
+    const { user } = yield auth.createUserWithEmailAndPassword(email, password);
+    yield put(signUpSuccess({ user, additionalData: { displayName } }));
+  } catch (error) {
+    yield put(signUpFailure(error));
+  }
+};
+
+const onSignUpStartSaga = function*() {
+  yield takeLatest(SIGN_UP_START, onSignUpStartWorkerSaga);
+};
+
+const onSignUpSuccessWorkerSaga = function*({
+  payload: { user, additionalData }
+}) {
+  yield getSnapShotFromAutherUserWorkerSaga(user, additionalData);
+};
+
+const onSignUpSuccessSaga = function*() {
+  yield takeLatest(SIGN_UP_SUCCESS, onSignUpSuccessWorkerSaga);
+};
+
 export function* userSagas() {
   yield all([
     call(onGoogleSignStartSaga),
     call(onEmailSignInStartSaga),
     call(onCheckUserSessionSaga),
-    call(onSignOutStartSaga)
+    call(onSignOutStartSaga),
+    call(onSignUpStartSaga),
+    call(onSignUpSuccessSaga)
   ]);
 }
