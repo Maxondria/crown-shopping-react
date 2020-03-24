@@ -4,7 +4,8 @@ import {
   SIGN_IN_SUCCESS,
   SIGN_IN_FAILURE,
   SIGN_OUT_SUCCESS,
-  SIGN_OUT_FAILURE
+  SIGN_OUT_FAILURE,
+  SIGN_UP_FAILURE
 } from "../../constants/actionTypes";
 
 export const userReducer = createReducer(initialState.user, {
@@ -22,6 +23,10 @@ export const userReducer = createReducer(initialState.user, {
     currentUser: null
   }),
   [SIGN_OUT_FAILURE]: (state, { error }) => ({
+    ...state,
+    error
+  }),
+  [SIGN_UP_FAILURE]: (state, { error }) => ({
     ...state,
     error
   })
