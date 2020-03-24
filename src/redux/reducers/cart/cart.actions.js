@@ -2,7 +2,8 @@ import {
   TOGGLE_CART_HIDDEN,
   ADD_ITEM,
   CLEAR_ITEM_FROM_CART,
-  REMOVE_ITEM
+  REMOVE_ITEM,
+  CLEAR_CART
 } from "../../constants/actionTypes";
 
 export const toggleCartHidden = () => ({
@@ -22,4 +23,8 @@ export const removeItem = cartItem => ({
 export const clearItemFromCart = cartItem => ({
   type: CLEAR_ITEM_FROM_CART,
   payload: { cartItem }
+});
+
+export const clearCart = () => ({
+  type: CLEAR_CART
 });

@@ -4,7 +4,8 @@ import {
   TOGGLE_CART_HIDDEN,
   ADD_ITEM,
   CLEAR_ITEM_FROM_CART,
-  REMOVE_ITEM
+  REMOVE_ITEM,
+  CLEAR_CART
 } from "../../constants/actionTypes";
 import { addItemToCart, removeItemFromCart } from "../../utils/cart.utils";
 
@@ -24,5 +25,10 @@ export const cartReducer = createReducer(initialState.cart, {
   [CLEAR_ITEM_FROM_CART]: (state, { cartItem }) => ({
     ...state,
     cartItems: state.cartItems.filter(item => item.id !== cartItem.id)
+  }),
+  [CLEAR_CART]: (state, _payload) => ({
+    ...state,
+    cartItems: [],
+    hidden: true
   })
 });

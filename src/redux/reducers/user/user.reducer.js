@@ -1,7 +1,28 @@
 import { createReducer } from "../../utils/reducer.utils";
 import { initialState } from "../../store/state/initial.state";
-import { SET_CURRENT_USER } from "../../constants/actionTypes";
+import {
+  SIGN_IN_SUCCESS,
+  SIGN_IN_FAILURE,
+  SIGN_OUT_SUCCESS,
+  SIGN_OUT_FAILURE
+} from "../../constants/actionTypes";
 
 export const userReducer = createReducer(initialState.user, {
-  [SET_CURRENT_USER]: (state, { currentUser }) => ({ ...state, currentUser })
+  [SIGN_IN_SUCCESS]: (state, { currentUser }) => ({
+    ...state,
+    error: null,
+    currentUser
+  }),
+  [SIGN_IN_FAILURE]: (state, { error }) => ({
+    ...state,
+    error
+  }),
+  [SIGN_OUT_SUCCESS]: (state, _payload) => ({
+    ...state,
+    currentUser: null
+  }),
+  [SIGN_OUT_FAILURE]: (state, { error }) => ({
+    ...state,
+    error
+  })
 });
