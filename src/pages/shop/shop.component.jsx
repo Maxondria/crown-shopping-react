@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
+import { compose } from "redux";
 import { Route } from "react-router-dom";
 import CollectionsOverview from "../../components/collections-overview/collections-overview.component";
 import CollectionPage from "../collection/collection.component";
@@ -14,40 +15,41 @@ import {
 const CollectionsOverviewWithSpinner = WithSpinner(CollectionsOverview);
 const CollectionsPageWithSpinner = WithSpinner(CollectionPage);
 
-class ShopPage extends Component {
-  async componentDidMount() {
-    const { fetchCollectionsStart } = this.props;
+const ShopPage = ({
+  match,
+  isLoading,
+  fetchCollectionsStart,
+  isCollectionsLoaded
+}) => {
+  useEffect(() => {
     fetchCollectionsStart();
-  }
+  }, [fetchCollectionsStart]);
 
-  render() {
-    const { match, isLoading, isCollectionsLoaded } = this.props;
-    return (
-      <div className="shop-page">
-        <Route
-          exact
-          path={`${match.path}`}
-          render={routeProps => (
-            <CollectionsOverviewWithSpinner
-              {...routeProps}
-              isLoading={isLoading}
-            />
-          )}
-        />
-        <Route
-          exact
-          path={`${match.path}/:collectionId`}
-          render={routeProps => (
-            <CollectionsPageWithSpinner
-              {...routeProps}
-              isLoading={!isCollectionsLoaded}
-            />
-          )}
-        />
-      </div>
-    );
-  }
-}
+  return (
+    <div className="shop-page">
+      <Route
+        exact
+        path={`${match.path}`}
+        render={routeProps => (
+          <CollectionsOverviewWithSpinner
+            {...routeProps}
+            isLoading={isLoading}
+          />
+        )}
+      />
+      <Route
+        exact
+        path={`${match.path}/:collectionId`}
+        render={routeProps => (
+          <CollectionsPageWithSpinner
+            {...routeProps}
+            isLoading={!isCollectionsLoaded}
+          />
+        )}
+      />
+    </div>
+  );
+};
 
 const mapStateToProps = createStructuredSelector({
   isLoading: selectIsCollectionFetching,
@@ -56,4 +58,6 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = { fetchCollectionsStart };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShopPage);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
+
+export default compose(withConnect)(ShopPage);
